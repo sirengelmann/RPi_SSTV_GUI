@@ -3,7 +3,7 @@ import subprocess
 
 class base:
     def __init__(self):
-        self.workingdir = "/path/to/workingdir/"
+        self.workingdir = "/home/soere/Documents/RPi_SSTV_GUI/"
         self.filename = "picture"
 
     def get_command(self):
@@ -28,7 +28,7 @@ class libcamera(base):
 class libsstv(base) :
     def __init__(self):
         super().__init__()
-        self.path = "path/to/executable/"
+        self.path = "/home/soere/bin/libsstv/bin/"
         self.mode = "ROBOT_C36"
 
     def get_command(self):
@@ -38,7 +38,7 @@ class libsstv(base) :
 class rpitx(base):
     def __init__(self):
         super().__init__()
-        self.path = "./"
+        self.path = "/home/soere/bin/rpitx/"
         self.frequency_Hz = "430200000"
 
     def get_command(self):
