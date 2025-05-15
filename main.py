@@ -19,7 +19,7 @@ class base:
 class libcamera(base):
     def __init__(self):
         super().__init__()
-        self.command = "libcamera-still --width 320 --height 256 -e bmp -o " + self.workingdir + self.filename + ".bmp"
+        self.command = "libcamera-still --width 320 --height 240 -e bmp -o " + self.workingdir + self.filename + ".bmp"
 
     def get_command(self):
         return self.command
@@ -29,7 +29,7 @@ class libsstv(base) :
     def __init__(self):
         super().__init__()
         self.path = "/home/soere/bin/libsstv/bin/"
-        self.mode = "MARTIN_M1"
+        self.mode = "PD50"
 
     def get_command(self):
         return self.path + "sstv-encode " + self.mode + " " + self.workingdir + self.filename + ".bmp" + " " + self.workingdir + self.filename + ".wav"
