@@ -5,6 +5,9 @@ class base:
     def __init__(self):
         self.workingdir = "/home/soere/Documents/RPi_SSTV_GUI/"
         self.filename = "picture"
+        self.mode = "PD50"
+        self.hres = 320
+        self.vres = 240
 
     def get_command(self):
         raise NotImplementedError("Command Getter not implemented for this class!")
@@ -19,7 +22,7 @@ class base:
 class libcamera(base):
     def __init__(self):
         super().__init__()
-        self.command = "libcamera-still --immediate --width 320 --height 240 -e bmp -o " + self.workingdir + self.filename + ".bmp"
+        self.command = "libcamera-still --immediate --width {} --height {} -e bmp -o ".format(self.hres, self.vres) + self.workingdir + self.filename + ".bmp"
 
     def get_command(self):
         return self.command
@@ -32,8 +35,9 @@ class overlayprinter(base):
         self.bannername = "banner" #w:320 h:32
         self.command = "convert -page +0+0 " + self.workingdir + self.filename + ".bmp" \
             + " -page +0+0 " + self.logoname + ".png" \
-            + " -page +0+208 " + self.bannername + ".png" \
-            + " -background none -layers merge +repage " + self.workingdir + self.filename + ".bmp"
+            + " -page +0+{} ".format(self.vres - 32) + self.bannername + ".png" \
+            + " -background none -layers merge +repage" \
+            + " -crop {}x{}".format(self.hres, self.vres) + self.workingdir + self.filename + ".bmp"
 
     def get_command(self):
         return self.command
@@ -43,7 +47,6 @@ class libsstv(base):
     def __init__(self):
         super().__init__()
         self.path = "/home/soere/bin/libsstv/bin/"
-        self.mode = "PD50"
 
     def get_command(self):
         return self.path + "sstv-encode " + self.mode + " " + self.workingdir + self.filename + ".bmp" + " " + self.workingdir + self.filename + ".wav"
