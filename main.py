@@ -37,7 +37,7 @@ class overlayprinter(base):
             + " -page +0+0 " + self.logoname + ".png" \
             + " -page +0+{} ".format(self.vres - 32) + self.bannername + ".png" \
             + " -background none -layers merge +repage" \
-            + " -crop {}x{}".format(self.hres, self.vres) + self.workingdir + self.filename + ".bmp"
+            + " -crop {}x{} ".format(self.hres, self.vres) + self.workingdir + self.filename + ".bmp"
 
     def get_command(self):
         return self.command
