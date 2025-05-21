@@ -23,9 +23,23 @@ class libcamera(base):
 
     def get_command(self):
         return self.command
+    
 
+class overlayprinter(base):
+    def __init__(self):
+        super().__init__()
+        self.logoname = "logo02" #w:43 h:93
+        self.bannername = "banner" #w:320 h:32
+        self.command = "convert -page +0+0 " + self.workingdir + self.filename + ".bmp" \
+            + " -page +0+0 " + self.logoname + ".png" \
+            + " -page +0+208 " + self.bannername + ".png" \
+            + " -background none -layers merge +repage " + self.workingdir + self.filename + ".bmp"
 
-class libsstv(base) :
+    def get_command(self):
+        return self.command
+    
+
+class libsstv(base):
     def __init__(self):
         super().__init__()
         self.path = "/home/soere/bin/libsstv/bin/"
@@ -59,12 +73,14 @@ class rpitx(base):
         self.frequency_Hz = "433400000"
 
     def get_command(self):
-        return "cat " + self.workingdir + self.filename + ".wav   | csdr convert_i16_f   | csdr gain_ff 7000   | csdr convert_f_samplerf 20833   | sudo " + self.path + "rpitx -i- -m RF -f " + self.frequency_Hz
+        return "cat " + self.workingdir + self.filename \
+            + ".wav   | csdr convert_i16_f   | csdr gain_ff 7000   | csdr convert_f_samplerf 20833   | sudo " \
+            + self.path + "rpitx -i- -m RF -f " + self.frequency_Hz
     
 
 
 if __name__ == "__main__":
-    steps = [libcamera(), libsstv(), displaycontroller(), rpitx()]
+    steps = [libcamera(), overlayprinter(), libsstv(), displaycontroller(), rpitx()]
 
     for step in steps:
         try:
