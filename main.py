@@ -1,5 +1,5 @@
 import subprocess
-
+import time
 
 class base:
     def __init__(self):
@@ -35,6 +35,23 @@ class libsstv(base) :
         return self.path + "sstv-encode " + self.mode + " " + self.workingdir + self.filename + ".bmp" + " " + self.workingdir + self.filename + ".wav"
 
 
+class displaycontroller(base):
+    def __init__(self):
+        super().__init__()
+        self.command = "echo \"Done displaying Countdown."
+        self.countdown_time_s = 5;
+
+    def get_command(self):
+        subprocess.run("echo \"Displaying Countdown ...\"", shell=True, check=True);
+        i = self.countdown_time_s;
+        while i > 0:
+            subprocess.run("echo \"{}\"".format(i), shell=True, check=True);
+            time.sleep(1);
+            i -= 1;
+            
+        return self.command
+
+
 class rpitx(base):
     def __init__(self):
         super().__init__()
@@ -47,7 +64,7 @@ class rpitx(base):
 
 
 if __name__ == "__main__":
-    steps = [libcamera(), libsstv(), rpitx()]
+    steps = [libcamera(), libsstv(), displaycontroller(), rpitx()]
 
     for step in steps:
         try:
