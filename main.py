@@ -38,7 +38,7 @@ class libsstv(base) :
 class displaycontroller(base):
     def __init__(self):
         super().__init__()
-        self.command = "echo \"Done displaying Countdown."
+        self.command = "echo \"Done displaying Countdown.\""
         self.countdown_time_s = 5;
 
     def get_command(self):
