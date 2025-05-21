@@ -39,7 +39,7 @@ class rpitx(base):
     def __init__(self):
         super().__init__()
         self.path = "/home/soere/bin/rpitx/"
-        self.frequency_Hz = "430200000"
+        self.frequency_Hz = "433400000"
 
     def get_command(self):
         return "cat " + self.workingdir + self.filename + ".wav   | csdr convert_i16_f   | csdr gain_ff 7000   | csdr convert_f_samplerf 20833   | sudo " + self.path + "rpitx -i- -m RF -f " + self.frequency_Hz
