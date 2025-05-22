@@ -3,7 +3,7 @@ import time
 
 class base:
     def __init__(self):
-        self.workingdir = "/home/soere/Documents/RPi_SSTV_GUI/"
+        self.workingdir = "/home/ham/Documents/RPi_SSTV_GUI/"
         self.filename = "picture"
         self.mode = "PD50"
         self.hres = 320
@@ -46,7 +46,7 @@ class overlayprinter(base):
 class libsstv(base):
     def __init__(self):
         super().__init__()
-        self.path = "/home/soere/bin/libsstv/bin/"
+        self.path = "/home/ham/bin/libsstv/bin/"
 
     def get_command(self):
         return self.path + "sstv-encode " + self.mode + " " + self.workingdir + self.filename + ".bmp" + " " + self.workingdir + self.filename + ".wav"
@@ -72,7 +72,7 @@ class displaycontroller(base):
 class rpitx(base):
     def __init__(self):
         super().__init__()
-        self.path = "/home/soere/bin/rpitx/"
+        self.path = "/home/ham/bin/rpitx/"
         self.frequency_Hz = "433400000"
 
     def get_command(self):
