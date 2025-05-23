@@ -26,6 +26,15 @@ class libcamera(base):
 
     def get_command(self):
         return self.command
+
+class fswebcam(base):
+    def __init__(self):
+        super().__init__()
+        self.command = "fswebcam -d /dev/video2 -r {}x{} --no-banner ".format(self.hres, self.vres) + self.workingdir + self.filename + ".png && convert " + self.workingdir + self.filename + ".png " + self.workingdir + self.filename + ".bmp"
+        #self.command = "libcamera-still --immediate --width {} --height {} -e bmp -o ".format(self.hres, self.vres) + self.workingdir + self.filename + ".bmp"
+
+    def get_command(self):
+        return self.command
     
 
 class overlayprinter(base):
@@ -83,7 +92,7 @@ class rpitx(base):
 
 
 if __name__ == "__main__":
-    steps = [libcamera(), overlayprinter(), libsstv(), displaycontroller(), rpitx()]
+    steps = [fswebcam(), overlayprinter(), libsstv(), displaycontroller(), rpitx()]
 
     for step in steps:
         try:
