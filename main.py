@@ -1,5 +1,6 @@
 import subprocess
 import time
+import RPi.GPIO as GPIO
 
 class base:
     def __init__(self):
@@ -91,12 +92,31 @@ class rpitx(base):
     
 
 
+
+# GPIO-Setup
+BUTTON_PIN = 5
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
 if __name__ == "__main__":
     steps = [fswebcam(), overlayprinter(), libsstv(), displaycontroller(), rpitx()]
 
-    for step in steps:
-        try:
-            step.execute()
-        except subprocess.CalledProcessError as e:
-            print(f"[FEHLER] Befehl fehlgeschlagen: {e}")
-            break
+
+    try:
+
+        while True:
+
+            GPIO.wait_for_edge(BUTTON_PIN, GPIO.FALLING)
+
+            for step in steps:
+                try:
+                    step.execute()
+                except subprocess.CalledProcessError as e:
+                    print(f"[FEHLER] Befehl fehlgeschlagen: {e}")
+                    break
+
+    except KeyboardInterrupt:
+        print("\n[INFO] Beendet durch Benutzer")
+    finally:
+        GPIO.cleanup()
+
